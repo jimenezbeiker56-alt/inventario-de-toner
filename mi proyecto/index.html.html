@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CONTROL DE INVENTARIO</title>
+</head>
+<body>
+    <h1>INVENTARIO DE TONER</h1>
+    
+    <form id="formtoner">
+        <input type="text" id="modelo" placeholder="modelo del toner (ej. hp 85A)" required>
+        <input type="text" id="oficina" placeholder="oficina o departamento" required>
+        <input type="number" id="cantidad" placeholder="cantidad" min="1" required>
+        <select id="movimiento">
+            <option value="entrada">entrada (+)</option>
+            <option value="salida">salida (-)</option>
+        </select>
+        <button type="submit">registrar y notificar</button>
+    </form>
+    
+    <br>
+    
+    <table border="1" id="tablainventario">
+        <thead>
+            <tr>
+              <th>modelo</th>
+              <th>oficina</th>
+              <th>cantidad</th>
+              <th>movimiento</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpotabla">
+        </tbody>
+    </table>
+
+    <script>
+        const BOT_TOKEN = "TU_TOKEN_AQUI";
+        const CHAT_ID = "TU_CHAT_ID_AQUI";
+
+        document.getElementById("formtoner").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const modelo = document.getElementById("modelo").value;
+            const oficina = document.getElementById("oficina").value;
+            const cantidad = document.getElementById("cantidad").value;
+            const movimiento = document.getElementById("movimiento").value;
+
+            const tabla = document.getElementById("cuerpotabla");
+            tabla.innerHTML += `
+                <tr>
+                    <td>${modelo}</td>
+                    <td>${oficina}</td>
+                    <td>${cantidad}</td>
+                    <td>${movimiento}</td>
+                </tr>
+            `;
+
+            const texto = `🖨️ *Movimiento de Tóner*\n• *Modelo:* ${modelo}\n• *Oficina:* ${oficina}\n• *Cantidad:* ${cantidad}\n• *Tipo:* ${movimiento}`;
+
+            // (Aquí se conecta con Telegram cuando pongas tus datos reales)
+            /*
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: texto,
+                    parse_mode: "Markdown"
+                })
+            });
+            */
+
+            document.getElementById("formtoner").reset();
+        });
+    </script>
+</body>
+</html>
